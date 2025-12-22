@@ -7,10 +7,18 @@ let activeFilters = {
   lowToHighCost: false,
   highToLowCost: false,
   sortByDistance: false,
+  searchTerm: "",
 };
 
 function applyFiltersAndSorting() {
   let filteredData = [...originalRestaurantData];
+
+  if (activeFilters.searchTerm) {
+    const term = activeFilters.searchTerm.toLowerCase();
+    filteredData = filteredData.filter((restaurant) =>
+      restaurant.name && restaurant.name.toLowerCase().includes(term)
+    );
+  }
 
   if (activeFilters.highlyRated) {
     filteredData = filteredData.filter(
@@ -259,6 +267,14 @@ document.addEventListener("DOMContentLoaded", async () => {
               toggleFilter(filterNames[index], category);
             });
           });
+
+          const searchInput = document.querySelector(".restaurant-search input");
+          if (searchInput) {
+            searchInput.addEventListener("input", (e) => {
+              activeFilters.searchTerm = e.target.value;
+              applyFiltersAndSorting();
+            });
+          }
         })
         .catch((error) =>
           console.error("Error loading restaurant data:", error)
