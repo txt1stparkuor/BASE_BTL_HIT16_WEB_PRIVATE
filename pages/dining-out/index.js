@@ -26,6 +26,7 @@ function applyFiltersAndSorting() {
         typeof restaurant.rating === "number" && restaurant.rating >= 4.5
     );
   }
+  //
 
   if (activeFilters.sortByRatingHighToLow) {
     filteredData = filteredData.sort((a, b) => { 
